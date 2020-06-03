@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Cipher {
+public class CipherResponse {
 
 	@JsonProperty("numero_casas")
 	private int numeroCasas;
@@ -21,11 +21,11 @@ public class Cipher {
 	@JsonProperty("resumo_criptografico")
 	private String resumoCriptografico;
 
-	public Cipher() {
+	public CipherResponse() {
 		super();
 	}
 
-	public Cipher(int numeroCasas, String token, String cifrado, String decifrado, String resumoCriptografico) {
+	public CipherResponse(int numeroCasas, String token, String cifrado, String decifrado, String resumoCriptografico) {
 		super();
 		this.numeroCasas = numeroCasas;
 		this.token = token;
