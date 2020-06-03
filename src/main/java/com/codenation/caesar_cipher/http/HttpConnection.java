@@ -2,11 +2,13 @@ package com.codenation.caesar_cipher.http;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class HttpConnection {
-	
+
 	// Basic method for a Get httpRequest
 	public static StringBuffer doGetRequest(String url) {
 		StringBuffer content = null;
@@ -28,8 +30,32 @@ public class HttpConnection {
 		}
 		return content;
 	}
-	
-	public static void doPostRequest() {
-		// TODO
+
+	public static void doPostRequest(String url_cn, String json) {
+		try {
+			URL url = new URL(url_cn);
+
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("POST");
+
+			con.setRequestProperty("Content-Type", "multipart/form-data");
+			con.setRequestProperty("Content-Disposition","form-data; file=\"answer\";");
+			
+			con.setDoOutput(true);			
+						
+			try(OutputStream os = con.getOutputStream()){
+				byte[] input = json.getBytes(StandardCharsets.UTF_8);
+				os.write(input);			
+			}
+
+			int code = con.getResponseCode();
+			System.out.println(code);
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

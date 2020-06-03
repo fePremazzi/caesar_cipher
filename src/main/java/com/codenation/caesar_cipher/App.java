@@ -26,8 +26,18 @@ public class App {
 			mapper.writeValue(new File("target/answer.json"), cipher);
 			
 			Cryptography.decodeCaesar(cipher);
-			System.out.println(cipher.getDecifrado());
-			// criptografar em SHA1 no resumo_criptografico
+//			System.out.println(cipher.getDecifrado());
+			
+			Cryptography.sha1Encrypt(cipher);
+//			System.out.println(cipher.getResumoCriptografico());
+			
+			mapper.writeValue(new File("target/answer.json"), cipher);
+			
+			LOGGER.info("Submiting answer.json ...");
+			HttpConnection.doPostRequest("https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=" + System.getenv("token"), mapper.writeValueAsString(cipher));
+			LOGGER.info("Submited answer.json ...");
+			//			System.out.println(mapper.writeValueAsString(cipher));
+			
 			// fazer post request no endpoint https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=90aa5fb5d523cfe4951c077fc59395028008cc40
 			// a API espera um arquivo sendo enviado como multipart/form-data, como se fosse enviado por um formulário HTML, 
 			// com um campo do tipo file com o nome answer. Considere isso ao enviar o arquivo.
