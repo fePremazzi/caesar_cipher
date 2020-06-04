@@ -34,12 +34,16 @@ public class HttpConnection {
 	public static void doPostRequest(String url_cn, String json) {
 		try {
 			URL url = new URL(url_cn);
+			
+			//https://gist.github.com/mcxiaoke/8929954
+			//https://www.programming-books.io/essential/android/upload-post-file-using-httpurlconnection-4b647c18f1ab42679a23212cbdb7047d
+			//https://www.baeldung.com/httpurlconnection-post
 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("POST");
 
-			con.setRequestProperty("Content-Type", "multipart/form-data");
-			con.setRequestProperty("Content-Disposition","form-data; file=\"answer\";");
+			con.setRequestProperty("Content-Type", "multipart/form-data; boundary=\"boundary\"");
+			con.setRequestProperty("Content-Disposition","form-data; name=\"file\"; filename=\"answer.json\"");
 			
 			con.setDoOutput(true);			
 						
