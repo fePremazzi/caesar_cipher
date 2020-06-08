@@ -1,11 +1,13 @@
 package com.codenation.caesar_cipher.http;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 
 public class HttpConnection {
 
@@ -33,33 +35,19 @@ public class HttpConnection {
 
 	public static void doPostRequest(String url_cn, String json) {
 		try {
-			URL url = new URL(url_cn);
 			
-			//https://gist.github.com/mcxiaoke/8929954
-			//https://www.programming-books.io/essential/android/upload-post-file-using-httpurlconnection-4b647c18f1ab42679a23212cbdb7047d
-			//https://www.baeldung.com/httpurlconnection-post
+			Unirest.setTimeouts(0, 0);
+			HttpResponse<String> response = Unirest.post(url_cn)
+			  .field("answer", new File("target/answer.json"))
+			  .asString();
+			
+			System.out.println("Status: " + response.getStatus());
+			System.out.println("Content: " + response.getBody());
+			
 
-			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			con.setRequestMethod("POST");
-
-			con.setRequestProperty("Content-Type", "multipart/form-data; boundary=\"boundary\"");
-			con.setRequestProperty("Content-Disposition","form-data; name=\"file\"; filename=\"answer.json\"");
-			
-			con.setDoOutput(true);			
-						
-			try(OutputStream os = con.getOutputStream()){
-				byte[] input = json.getBytes(StandardCharsets.UTF_8);
-				os.write(input);			
-			}
-
-			int code = con.getResponseCode();
-			System.out.println(code);
-			
-			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }

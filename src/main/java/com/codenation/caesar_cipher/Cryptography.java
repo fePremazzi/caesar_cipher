@@ -52,7 +52,7 @@ public class Cryptography {
 			}
 			String senhahex = hexString.toString();
 
-			cipher.setResumoCriptografico(senhahex);
+			cipher.setResumoCriptografico(senhahex.toLowerCase());
 			LOGGER.info("SHA-1 encrypted succesfully.");
 		} catch (Exception e) {
 			e.printStackTrace();
